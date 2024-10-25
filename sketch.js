@@ -1,147 +1,154 @@
 
 let margin = 20; 
-let canvasWidth = 700;
-let canvasHeight = 520;
 let colors = ["#00ACA5", "#000306", "#FFFFFF", "#F9EB48", "#FC5C1C", "#94C4F5", "#FE7A41", 
   "#F23027", "#FFE455", "#5377D0", "#92C3F5", "#00ACA5"];
-
+let baseWidth = 700;  
+let baseHeight = 520; 
+let scaleFactor; 
 
 function setup() {
-  // put setup code here
-  createCanvas(canvasWidth,canvasHeight); 
+  createCanvas(windowWidth, windowHeight); 
   noLoop();
 }
 
 function draw() {
-  // put drawing code here
-
-  background(40)
+  background(40);
   strokeWeight(0);
 
-  let offsetX = (width - (canvasWidth - 2 * margin)) / 2;
-  let offsetY = (height - (canvasHeight - 2 * margin)) / 2;
-  
-  fill(random(colors)); 
-  rect(offsetX + margin + 0, offsetY + margin + 0, 100, 100);
+  // 计算缩放比例
+  scaleFactor = min(windowWidth / baseWidth, windowHeight / baseHeight);
 
-  fill("#000306");
-  rect(offsetX + margin + 100, offsetY + margin + 0, 100, 50);
-  
-  fill("#FFFFFF");
-  rect(offsetX + margin + 200, offsetY + margin + 0, 50, 50);
+  // 偏移量计算，确保图案居中
+  let offsetX = (windowWidth - baseWidth * scaleFactor) / 2;
+  let offsetY = (windowHeight - baseHeight * scaleFactor) / 2;
 
-  fill("#000306");
-  rect(offsetX + margin + 250, offsetY + margin + 0, 100, 50);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 350, offsetY + margin + 0, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 400, offsetY + margin + 0, 100, 50);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 500, offsetY + margin + 0, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 550, offsetY + margin + 0, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 100, offsetY + margin + 50, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 150, offsetY + margin + 50, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 200, offsetY + margin + 50, 100, 50);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 300, offsetY + margin + 50, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 350, offsetY + margin + 50, 100, 100);
-  drawCheckers(offsetX + margin + 350, offsetY + margin + 50, 100, 100, 10); // 棋盘格不变
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 450, offsetY + margin + 50, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 500, offsetY + margin + 50, 50, 50);
-  drawCheckers(offsetX + margin + 500, offsetY + margin + 50, 50, 50, 10); // 棋盘格不变
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 550, offsetY + margin + 50, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 0, offsetY + margin + 100, 100, 150);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 100, offsetY + margin + 100, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 150, offsetY + margin + 100, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 200, offsetY + margin + 100, 100, 100);
-
-  fill("#000306");
-  rect(offsetX + margin + 300, offsetY + margin + 100, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 450, offsetY + margin + 100, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 500, offsetY + margin + 100, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 550, offsetY + margin + 100, 50, 50);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 100, offsetY + margin + 150, 100, 100);
-
-  fill("#000306");
-  rect(offsetX + margin + 300, offsetY + margin + 150, 150, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 450, offsetY + margin + 150, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 500, offsetY + margin + 150, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 550, offsetY + margin + 150, 50, 50);
-
-  fill("#000306");
-  rect(offsetX + margin + 200, offsetY + margin + 200, 100, 100);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 300, offsetY + margin + 200, 100, 100);
-
-  fill("#000306");
-  rect(offsetX + margin + 400, offsetY + margin + 200, 200, 100);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 500, offsetY + margin + 200, 50, 50);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 0, offsetY + margin + 250, 200, 150);
-  drawCheckers(offsetX + margin + 0, offsetY + margin + 250, 200, 150, 25); // 棋盘格不变
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 450, offsetY + margin + 250, 50, 50);
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 200, offsetY + margin + 300, 100, 100);
-
-  fill("#000306");
-  rect(offsetX + margin + 300, offsetY + margin + 300, 100, 100);
-
-  fill("#FFFFFF");
-  rect(offsetX + margin + 400, offsetY + margin + 300, 200, 100);
-  drawCheckers(offsetX + margin + 400, offsetY + margin + 300, 200, 100, 12.5); // 棋盘格不变
-
-  fill(random(colors)); 
-  rect(offsetX + margin + 400, offsetY + margin + 300, 50, 50);
+  // 使用缩放比例绘制图案
+  drawPattern(offsetX, offsetY, scaleFactor);
 }
+
+function drawPattern(offsetX, offsetY, scale) {
+  fill(random(colors));
+  rect(offsetX + margin * scale + 0, offsetY + margin * scale + 0, 100 * scale, 100 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 100 * scale, offsetY + margin * scale + 0, 100 * scale, 50 * scale);
+  
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 200 * scale, offsetY + margin * scale + 0, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 250 * scale, offsetY + margin * scale + 0, 100 * scale, 50 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 350 * scale, offsetY + margin * scale + 0, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 400 * scale, offsetY + margin * scale + 0, 100 * scale, 50 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 0, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 550 * scale, offsetY + margin * scale + 0, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 100 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 150 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 200 * scale, offsetY + margin * scale + 50 * scale, 100 * scale, 50 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 300 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 350 * scale, offsetY + margin * scale + 50 * scale, 100 * scale, 100 * scale);
+  drawCheckers(offsetX + margin * scale + 350 * scale, offsetY + margin * scale + 50 * scale, 100 * scale, 100 * scale, 10 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 450 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+  drawCheckers(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale, 10 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 550 * scale, offsetY + margin * scale + 50 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 0 * scale, offsetY + margin * scale + 100 * scale, 100 * scale, 150 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 100 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 150 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 200 * scale, offsetY + margin * scale + 100 * scale, 100 * scale, 100 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 300 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 450 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 550 * scale, offsetY + margin * scale + 100 * scale, 50 * scale, 50 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 100 * scale, offsetY + margin * scale + 150 * scale, 100 * scale, 100 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 300 * scale, offsetY + margin * scale + 150 * scale, 150 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 450 * scale, offsetY + margin * scale + 150 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 150 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 550 * scale, offsetY + margin * scale + 150 * scale, 50 * scale, 50 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 200 * scale, offsetY + margin * scale + 200 * scale, 100 * scale, 100 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 300 * scale, offsetY + margin * scale + 200 * scale, 100 * scale, 100 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 400 * scale, offsetY + margin * scale + 200 * scale, 200 * scale, 100 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 500 * scale, offsetY + margin * scale + 200 * scale, 50 * scale, 50 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 0 * scale, offsetY + margin * scale + 250 * scale, 200 * scale, 150 * scale);
+  drawCheckers(offsetX + margin * scale + 0 * scale, offsetY + margin * scale + 250 * scale, 200 * scale, 150 * scale, 25 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 450 * scale, offsetY + margin * scale + 250 * scale, 50 * scale, 50 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 200 * scale, offsetY + margin * scale + 300 * scale, 100 * scale, 100 * scale);
+
+  fill("#000306");
+  rect(offsetX + margin * scale + 300 * scale, offsetY + margin * scale + 300 * scale, 100 * scale, 100 * scale);
+
+  fill("#FFFFFF");
+  rect(offsetX + margin * scale + 400 * scale, offsetY + margin * scale + 300 * scale, 200 * scale, 100 * scale);
+  drawCheckers(offsetX + margin * scale + 400 * scale, offsetY + margin * scale + 300 * scale, 200 * scale, 100 * scale, 12.5 * scale);
+
+  fill(random(colors));
+  rect(offsetX + margin * scale + 400 * scale, offsetY + margin * scale + 300 * scale, 50 * scale, 50 * scale);
+}
+
 
 function drawCheckers(x, y, w, h, size) {
   let rows = h / size;
@@ -157,3 +164,10 @@ function drawCheckers(x, y, w, h, size) {
     }
   }
 }
+
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  redraw(); // 
+}
+
